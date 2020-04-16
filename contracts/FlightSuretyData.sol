@@ -42,7 +42,7 @@ contract FlightSuretyData {
 
     struct Airline{
         bool isRegistered;
-        bool particapted;
+        bool participated;
     }
     mapping(address => Airline) airlines;
 
@@ -145,11 +145,10 @@ contract FlightSuretyData {
                             requireIsOperational
                             returns(bool success, uint256 votes)
     {
-        require(airlines[airline].particapted, "airline needs to pay participatoin fee");
 
         //registering the first airline
         if(NumberOfAirlines == 0){
-            airlines[airline] = Airline(true, false);
+            airlines[airline].isRegistered = true;
             success = true;
             return (success, 0);
         }
@@ -157,7 +156,7 @@ contract FlightSuretyData {
         //registering the 2nd to 4th airline
         if(NumberOfAirlines < 4){
             if( airlines[msg.sender].isRegistered == true){
-                airlines[airline] = Airline(true, false);
+                airlines[airline].isRegistered = true;
                 votes = 1;
                 return (success, votes);
             }
@@ -166,8 +165,8 @@ contract FlightSuretyData {
         //registering the 5th airline and above
         else
         {
-            // checking votes duplication
             votes = airlinesVotes[airline].length;
+            // checking for duplication
             for (uint c = 0; c < airlinesVotes[airline].length; c++){
                 if(airlinesVotes[airline][c] == msg.sender){
                     success = false;
@@ -175,7 +174,7 @@ contract FlightSuretyData {
                 }
             }
 
-            //adding the vote
+            //adding the vote to the airline
             airlinesVotes[airline].push(msg.sender);
             votes++;
 
@@ -187,7 +186,7 @@ contract FlightSuretyData {
             }
 
             else{
-                airlines[airline] = Airline(true, false);
+                airlines[airline].isRegistered = true;
                 success = true;
                 return(success, votes);
             }
@@ -275,9 +274,9 @@ contract FlightSuretyData {
                             payable
                             requireIsOperational
     {
-        require(!airlines[airline].particapted, "airline already paid participation fee");
-        require(msg.value > PARTICIPATION_FEE, "massage value is not enough");
-        airlines[airline].particapted = true;
+        require(!airlines[airline].participated, "airline already paid participation fee");
+        require(msg.value > PARTICIPATION_FEE, "Message balance is not enough");
+        airlines[airline].participated = true;
         NumberOfAirlines++;
     }
 

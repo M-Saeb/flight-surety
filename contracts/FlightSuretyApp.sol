@@ -84,8 +84,8 @@ contract FlightSuretyApp {
         contractOwner = msg.sender;
         flightSuretyData = FlightSuretyData(dataContract);
 
-        //register the first flight
-        flightSuretyData.fund(msg.sender);
+        // register the first flight
+        // flightSuretyData.fund(firstAirline);
         flightSuretyData.registerAirline(msg.sender);
     }
 
