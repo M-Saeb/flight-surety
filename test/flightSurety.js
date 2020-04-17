@@ -7,7 +7,8 @@ contract('Flight Surety Tests', async (accounts) => {
   var config;
   before('setup contract', async () => {
     config = await Test.Config(accounts);
-    await config.flightSuretyData.authorizeCaller(config.flightSuretyApp.address);
+    participationFee = 20000000000000000000;
+//    await config.flightSuretyData.authorizeCaller(config.flightSuretyApp.address);
   });
 
   /****************************************************************************************/
@@ -78,16 +79,55 @@ contract('Flight Surety Tests', async (accounts) => {
 
     // ACT
     try {
-        await config.flightSuretyApp.registerAirline(newAirline, {from: config.firstAirline});
+        await config.flightSuretyData.registerAirline(newAirline, {from: config.firstAirline});
     }
     catch(e) {
-        console.log("catch error massge ==> ", e)
+        // console.log("catch error massge ==> ", e)
     }
     let result = await config.flightSuretyData.isAirline.call(newAirline); 
 
-    // ASSERT
+
+    // ASSERT //SWITCHED FROM FALSE TO TRUE
     assert.equal(result, false, "Airline should not be able to register another airline if it hasn't provided funding");
 
+  });
+
+  it('(airline) register and fund 2nd to 5th Airline using registerairline() and fund()', async () => {
+    let owner = config.owner
+    let account_A = accounts[2];
+    let account_B = accounts[3];
+    let account_C = accounts[4];
+    let account_D = accounts[5];
+
+        await config.flightSuretyData.fund(account_A, {from: account_A, value: participationFee})
+        await config.flightSuretyData.registerAirline(account_A, {from: owner})
+
+        await config.flightSuretyData.fund(account_B, {from: account_B, value: participationFee})
+        await config.flightSuretyData.registerAirline(account_B, {from: account_A})
+
+        await config.flightSuretyData.fund(account_C, {from: account_C, value: participationFee})
+        await config.flightSuretyData.registerAirline(account_C, {from: account_B})
+
+        await config.flightSuretyData.fund(account_D, {from: account_D, value: participationFee})
+        await config.flightSuretyData.registerAirline(account_D, {from: config.owner})
+
+        
+    // FOR TESTING:
+    // let newAirlines = Array( 
+    //     await config.flightSuretyData.airlines.call(owner),
+    //     await config.flightSuretyData.airlines.call(account_A),
+    //     await config.flightSuretyData.airlines.call(account_B),
+    //     await config.flightSuretyData.airlines.call(account_C),
+    //     await config.flightSuretyData.airlines.call(account_D))
+
+    // console.log('new airlines:', newAirlines)
+
+    await config.flightSuretyData.registerAirline(account_D, {from: account_A})
+    await config.flightSuretyData.registerAirline(account_D, {from: account_B})
+
+    let fifthAccount = await config.flightSuretyData.isAirline.call(account_D)
+//    console.log("fifth airline:",fifthAccount)
+    assert.equal(fifthAccount, true, "registering the fifth airline should need the votes of 50% of the airlines registered")
   });
  
 
