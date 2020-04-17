@@ -7,10 +7,9 @@ import './flightsurety.css';
 (async() => {
 
     let result = null;
-    //console.log('test test')
-    // console.log(new Contract('localhost'))
+    console.log('outside of contract')
     let contract = new Contract('localhost', () => {
-        // console.log('test test')
+        console.log('inside of contract')
 
         // Read transaction
         contract.isOperational((error, result) => {
