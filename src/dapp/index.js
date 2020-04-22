@@ -1,58 +1,62 @@
+import DOM from "./dom";
+import Contract from "./contract";
+import "./flightsurety.css";
 
-import DOM from './dom';
-import Contract from './contract';
-import './flightsurety.css';
+// ganache-cli -a 50 -l 99999999 -m "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat"
 
-
-(async() => {
-
-    let result = null;
-    console.log('outside of contract')
-    let contract = new Contract('localhost', () => {
-        console.log('inside of contract')
-
-        // Read transaction
-        contract.isOperational((error, result) => {
-            console.log("error message:", error);
-            console.log("result message:", result);
-            display('Operational Status', 'Check if contract is operational', [ { label: 'Operational Status', error: error, value: result} ]);
-        });
-    
-
-        // User-submitted transaction
-        DOM.elid('submit-oracle').addEventListener('click', () => {
-            let flight = DOM.elid('flight-number').value;
-            console.log(flight)
-            // Write transaction
-            contract.fetchFlightStatus(flight, (error, result) => {
-                display('Oracles', 'Trigger oracles', [ { label: 'Fetch Flight Status', error: error, value: result.flight + ' ' + result.timestamp} ]);
-            });
-        })
-    
+async () => {
+  let result = null;
+  let contract = new Contract("localhost", () => {
+    // Read transaction
+    contract.isOperational((error, result) => {
+      console.log("error message:", error);
+      console.log("result message:", result);
+      display("Operational Status", "Check if contract is operational", [
+        { label: "Operational Status", error: error, value: result },
+      ]);
     });
-    
 
-})();
+    // User-submitted transaction
+    DOM.elid("submit-oracle").addEventListener("click", () => {
+      let flight = DOM.elid("flight-number").value;
+      console.log(flight);
+      // Write transaction
+      contract.fetchFlightStatus(flight, (error, result) => {
+        display("Oracles", "Trigger oracles", [
+          {
+            label: "Fetch Flight Status",
+            error: error,
+            value: result.flight + " " + result.timestamp,
+          },
+        ]);
+      });
+    });
 
+    //refund user
+    DOM.elid("pay-insuree").addEventListener("click", () => {
+      contract.pay((error, result) => {
+        console.log("error message:", error);
+        console.log("result message:", result);
+      });
+    });
+  })();
 
-function display(title, description, results) {
+  function display(title, description, results) {
     let displayDiv = DOM.elid("display-wrapper");
     let section = DOM.section();
     section.appendChild(DOM.h2(title));
     section.appendChild(DOM.h5(description));
     results.map((result) => {
-        let row = section.appendChild(DOM.div({className:'row'}));
-        row.appendChild(DOM.div({className: 'col-sm-4 field'}, result.label));
-        row.appendChild(DOM.div({className: 'col-sm-8 field-value'}, result.error ? String(result.error) : String(result.value)));
-        section.appendChild(row);
-    })
+      let row = section.appendChild(DOM.div({ className: "row" }));
+      row.appendChild(DOM.div({ className: "col-sm-4 field" }, result.label));
+      row.appendChild(
+        DOM.div(
+          { className: "col-sm-8 field-value" },
+          result.error ? String(result.error) : String(result.value)
+        )
+      );
+      section.appendChild(row);
+    });
     displayDiv.append(section);
-
-}
-
-
-
-
-
-
-
+  }
+};

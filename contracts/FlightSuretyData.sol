@@ -23,16 +23,16 @@ contract FlightSuretyData {
         uint256 updatedTimestamp;
         address airline;
         bool credited;
-        address[] insurees;
-        uint256 totalInsureesAmount;
     }
     mapping(bytes32 => Flight) private flights;
 
-    //for counting the amount payed by each insuree
-    mapping(address => uint256) insureesPayment;
 
-    //to keep track of the amount of ether this contract has
-    uint256 contractworth = 0;
+    struct Insuree{
+        bool didBuy;
+        uint256 amount;
+        bytes32 flightKey;
+    }
+    mapping(address => Insuree) insurees;
 
 
     uint256 public constant PARTICIPATION_FEE = 10 ether;
@@ -229,14 +229,12 @@ contract FlightSuretyData {
                             payable
                             requireIsOperational
     {
-
         bytes32 flightKey = keccak256(abi.encodePacked(airline, flight, timeStamp));
-        flights[flightKey].insurees.push(msg.sender);
-        insureesPayment[msg.sender] = amount;
-        flights[flightKey].totalInsureesAmount += amount;
-        contractworth += amount;
-
-    }
+        insurees[msg.sender] = Insuree({
+                                        didBuy: true,
+                                        amount: amount,
+                                        flightKey: flightKey
+                                    });    }
 
     /**
      *  @dev Credits payouts to insurees
@@ -258,13 +256,15 @@ contract FlightSuretyData {
     */
     function pay
                             (
-                                address insuree
+
                             )
                             external
                             payable
                             requireIsOperational
     {
-        require(contractworth > insureesPayment[insuree], "contract does not have enough funding");
+        require(address(this).balance > insurees[msg.sender].amount, "contract does not have enough funding");
+        bytes32 flightKey = insurees[msg.sender].flightKey;
+        require(flights[flightKey].credited, "flight is not credited");
     }
 
    /**

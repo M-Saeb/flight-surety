@@ -107,17 +107,6 @@ contract FlightSuretyApp {
 
 
    /**
-    * @dev Add an airline to the registration queue
-    *
-    */
-    // function registerAirline
-    //                         (
-    //                         )
-    //                         public
-    // {
-    // }
-
-   /**
     * @dev Register a future flight for insuring.
     *
     */
@@ -254,7 +243,14 @@ contract FlightSuretyApp {
     }
 
 
-
+    function pay
+                    (
+                    )
+                    public
+                    payable
+    {
+        flightSuretyData.pay();
+    }
 
     // Called by oracle when a response is available to an outstanding request
     // For the response to be accepted, there must be a pending request that is open
@@ -378,4 +374,11 @@ contract FlightSuretyData{
                                     bytes32 flightKey
                                 )
                                 external;
+
+    function pay
+                    (
+
+                    )
+                    external
+                    payable;
 }
