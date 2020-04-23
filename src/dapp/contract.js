@@ -55,4 +55,9 @@ export default class Contract {
         callback(error, payload);
       });
   }
+
+  pay(callback){
+    let self = this;
+    self.flightSuretyApp.methods.pay().call({from: accts[6]}, callback);
+  }
 }

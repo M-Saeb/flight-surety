@@ -6,9 +6,9 @@ import express from 'express';
 
 let config = Config['localhost'];
 let web3 = new Web3(new Web3.providers.WebsocketProvider(config.url.replace('http', 'ws')));
+let acct = web3.eth.accounts;
 web3.eth.defaultAccount = web3.eth.accounts[0];
 let flightSuretyApp = new web3.eth.Contract(FlightSuretyApp.abi, config.appAddress);
-
 
 flightSuretyApp.events.OracleRequest({
     fromBlock: 0

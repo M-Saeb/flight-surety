@@ -155,16 +155,14 @@ contract FlightSuretyData {
             return (success, 0);
         }
 
-        require(airlines[airline].participated, "the airline didn't pay the participating fee");
+        require(airlines[msg.sender].participated, "the airline didn't pay the participating fee");
+        require(!airlines[airline].isRegistered, "airline already registered");
 
         //registering the 2nd to 4th airline
         if(NumberOfAirlines < 4){
-            if( airlines[msg.sender].isRegistered == true){
-                airlines[airline].isRegistered = true;
-                NumberOfAirlines ++;
-                votes = 1;
-                return (success, votes);
-            }
+            airlines[airline].isRegistered = true;
+            votes = 1;
+            return (success, votes);
         }
 
         //registering the 5th airline and above
@@ -192,7 +190,6 @@ contract FlightSuretyData {
 
             else{
                 airlines[airline].isRegistered = true;
-                NumberOfAirlines ++;
                 success = true;
                 return(success, votes);
             }
@@ -282,7 +279,9 @@ contract FlightSuretyData {
     {
         require(!airlines[airline].participated, "airline already paid participation fee");
         require(msg.value > PARTICIPATION_FEE, "Message balance is not enough");
+        require(airlines[airline].isRegistered, "Airline is not registered");
         airlines[airline].participated = true;
+        NumberOfAirlines ++;
     }
 
     function getFlightKey

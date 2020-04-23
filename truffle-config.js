@@ -14,7 +14,7 @@ module.exports = {
     develop: {
       network_id: "*",
       accounts: 50,
-      defaultEtherBalance: 100,
+      defaultEtherBalance: 1000,
     },
   },
   compilers: {
