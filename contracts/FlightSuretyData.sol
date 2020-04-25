@@ -231,7 +231,8 @@ contract FlightSuretyData {
                                         didBuy: true,
                                         amount: amount,
                                         flightKey: flightKey
-                                    });    }
+                                    });
+    }
 
     /**
      *  @dev Credits payouts to insurees
@@ -258,10 +259,12 @@ contract FlightSuretyData {
                             external
                             payable
                             requireIsOperational
+                            returns(bool)
     {
         require(address(this).balance > insurees[msg.sender].amount, "contract does not have enough funding");
         bytes32 flightKey = insurees[msg.sender].flightKey;
         require(flights[flightKey].credited, "flight is not credited");
+        return true;
     }
 
    /**

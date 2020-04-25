@@ -11,6 +11,7 @@ export default class Contract {
       config.appAddress
     );
     this.initialize(callback);
+    this.accounts = web3.eth.getAccounts;
     this.owner = null;
     this.airlines = [];
     this.passengers = [];
@@ -56,8 +57,14 @@ export default class Contract {
       });
   }
 
+  buy(amount, flight, timestamp, airline, callback) {
+    let self = this;
+    self.flightSuretyApp.methods.buy(amount, flight, timestamp, airline)
+      .send({from: self.accounts[0], value: amount })
+  }
+
   pay(callback){
     let self = this;
-    self.flightSuretyApp.methods.pay().call({from: accts[6]}, callback);
+    self.flightSuretyApp.methods.pay().call({from: this.accounts[6]}, callback);
   }
 }

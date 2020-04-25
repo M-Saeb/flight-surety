@@ -1,55 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <title>FlightSurety</title>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  </head>
 
-  <body>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-      <a class="navbar-brand" href="#">FlightSurety</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarsExampleDefault"
-        aria-controls="navbarsExampleDefault"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-    </nav>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>FlightSurety</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+</head>
 
-    <main class="container">
-      <div id="display-wrapper" class="top-20"></div>
-      <div class="row top-20">
-        <label for="airlines" class="form">Choose Airline</label>
-        <select id="airlines">
+<body>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="#">FlightSurety</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+      aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </nav>
+
+  <main class="container">
+    <div id="display-wrapper" class="top-20"></div>
+    <div class="row top-20">
+      <label for="airlines" class="form">Choose Airline</label>
+      <select id="airlines">
+        <option>German airline</option>
+        <option>Turkish airline</option>
+        <option>Local airline</option>
+      </select>
+    </div>
+    <div class="row top-20">
+      <label class="form">Flight</label>
+      <input type="text" id="flight-number" />
+      <btn class="btn btn-primary" id="submit-oracle">Submit to Oracles</btn>
+    </div>
+    <hr>
+    <div class="row top-20">
+      <h4>Buy insurance</h4>
+      <div class="box">
+
+        <label class="form">pay a maximum of 1 ether</label>
+        <input type="text" id="buy-amount" placeholder="amount in wei">
+
+        <br>
+
+        <label class="form">select flight</label>
+        <select id="buy-flight">
+          <option>ND103</option>
+          <option>DF233</option>
+          <option>HK707</option>
+        </select>
+
+        <label class="form">Date</label>
+        <input type="text" id="buy-timestamp">
+
+        <br>
+
+        <label class="form"></label>
+        <select id="buy-airlines">
           <option>German airline</option>
           <option>Turkish airline</option>
           <option>Local airline</option>
         </select>
-      </div>
-      <div class="row top-20">
-        <label class="form">Flight</label>
-        <input type="text" id="flight-number" />
-        <btn class="btn btn-primary" id="submit-oracle">Submit to Oracles</btn>
-      </div>
-      <div class="row top-20">
-        <btn class="btn btn-primary" id="pay-insuree">Pay Insuree</btn>
-      </div>
-    </main>
 
-    <!-- <script src="index.js"></script> -->
-  </body>
+        <btn class="btn btn-primary" id="buy-click">Pay</btn>
+      </div>
+    </div>
+    <hr>
+    <div class="row top-20">
+      <h4>Draw refund</h4>
+      <div class="box">
+        <label class="form">Draw refund if available</label>
+        <btn class="btn btn-primary" id="pay-click">Pay</btn>
+        <label id="pay-result"></label>      
+      </div>
+    </div>
+  </main>
+
+  <!-- <script src="index.js"></script> -->
+</body>
+
 </html>

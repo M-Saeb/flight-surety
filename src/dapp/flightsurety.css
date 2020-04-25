@@ -12,8 +12,24 @@ body {
     padding: 40px;
 }
 
+.btn-primary{
+    width: 150px;
+}
+
 .top-20 {
     margin-top: 20px;
+}   
+
+.box{
+    margin: 50px;
+}
+
+hr{
+    background-color: white;
+}
+
+h4{
+
 }
 
 h5 {

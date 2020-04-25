@@ -252,6 +252,21 @@ contract FlightSuretyApp {
         flightSuretyData.pay();
     }
 
+    function buy
+                            (
+                                uint256 amount,
+                                string flight,
+                                uint256 timeStamp,
+                                address airline
+                            )
+                            public
+                            payable
+                            requireIsOperational
+        {
+            flightSuretyData.buy(amount, flight, timeStamp, airline);
+        }
+
+
     // Called by oracle when a response is available to an outstanding request
     // For the response to be accepted, there must be a pending request that is open
     // and matches one of the three Indexes randomly assigned to the oracle at the
@@ -376,9 +391,18 @@ contract FlightSuretyData{
                                 external;
 
     function pay
-                    (
-
-                    )
+                    ()
                     external
                     payable;
+
+    function buy
+                        (
+                            uint256 amount,
+                            string flight,
+                            uint256 timeStamp,
+                            address airline
+                        )
+                        external
+                        payable;
+
 }
