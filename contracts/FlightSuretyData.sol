@@ -261,7 +261,9 @@ contract FlightSuretyData {
                             requireIsOperational
                             returns(bool)
     {
-        require(address(this).balance > insurees[msg.sender].amount, "contract does not have enough funding");
+        // implementing the 1.5 credit amount be payed back to  the insuree
+        uint256 amountToPay = insurees[msg.sender].amount.mul(3).div(2);
+        require(address(this).balance > amountToPay, "contract does not have enough funding");
         bytes32 flightKey = insurees[msg.sender].flightKey;
         require(flights[flightKey].credited, "flight is not credited");
         return true;

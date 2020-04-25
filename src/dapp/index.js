@@ -34,11 +34,10 @@ import "./flightsurety.css";
 
     //refund user
     DOM.elid("buy-click").addEventListener("click", () => {
-      let value = Number(DOM.elid("buy-amount").value);
+      let value = DOM.elid("buy-amount").value;
       let flight= DOM.elid("buy-flight").value;
       let timestamp = Number(DOM.elid("buy-timestamp").value)
-      let airline = DOM.elid.apply("buy-airlines").value
-      let account = this.accounts[0];
+      let airline = DOM.elid("buy-airlines").value
 
       if(value < 1000000000000000000){
         contract.buy(value, flight, timestamp, airline, (error, result) => {
@@ -53,9 +52,13 @@ import "./flightsurety.css";
     //the function checks if the user has credit in their account
     DOM.elid("pay-click").addEventListener("click", () => {
       try{
-        contract.pay()
+        contract.pay((error,result) => {
+          console.log('error message:', error)
+          console.log('result message:', result)
+        })
         DOM.elid("pay-result").innerText = "you do have credit in your account"
       } catch(e){        
+        console.log("pay error ==>", e)
         DOM.elid("pay-result").innerText = "you don't have credit in your account"
       }
     })
