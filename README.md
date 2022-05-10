@@ -1,7 +1,7 @@
 # FlightSurety
 
-This is a flight insurance decentralized application for registering airlines that offer flight delay insurance, and passengers who carry this insurance, gets paid in the event their flight is delayed.
-It contain multiple smart contracts which are autonomously triggered by external sources, and which handle payments based on flight delay scenarios. There external resources must be registered in the smart contract as Oracles in order for them to interact with it
+A flight insurance decentralized application for registering airlines that offer flight delay insurance. Passengers who carry this insurance, gets paid in the event their flight is delayed. It contain multiple smart contracts which are autonomously triggered by external sources, which handle payments based on flight delay scenarios. There external resources must be registered in the smart contract as Oracles in order for them to interact with it
+
 
 ## Description
 This project contains:
